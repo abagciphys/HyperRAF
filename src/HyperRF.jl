@@ -13,6 +13,6 @@ RF = RealField(sprec);
 export sprec, RF, CF
 
 include("hyper_radials.jl")
-include("octe_intedgrals.jl")
+include("octe_integrals.jl")
 
 #end
