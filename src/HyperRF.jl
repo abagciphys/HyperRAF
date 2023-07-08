@@ -12,6 +12,7 @@ RealField(prec::Int) = ArbField(prec);
 RF = RealField(sprec);
 export sprec, RF, CF
 
-include("sto_at_integ_two_elect.jl")
+include("hyper_radials.jl")
+include("octe_intedgrals.jl")
 
 #end
