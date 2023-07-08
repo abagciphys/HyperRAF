@@ -1,4 +1,4 @@
-using HyperRF
+using HyperRAF
 using Test
 
 @testset "HyperRF.jl" begin
