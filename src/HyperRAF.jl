@@ -1,4 +1,4 @@
-module HyperRF
+module HyperRAF
 
 using Nemo
 using JRAF
