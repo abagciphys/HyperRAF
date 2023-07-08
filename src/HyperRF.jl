@@ -1,4 +1,4 @@
-#module HyperRF
+module HyperRF
 
 using Nemo
 using JRAF
@@ -15,4 +15,4 @@ export sprec, RF, CF
 include("hyper_radials.jl")
 include("octe_integrals.jl")
 
-#end
+end
