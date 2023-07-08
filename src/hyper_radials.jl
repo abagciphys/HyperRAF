@@ -127,7 +127,7 @@ end
 ################# RECURRENCE RELATION TECHNIQUE
 function HyperRLTest(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     ### L>1
-    res1 = OneCenterTwoERζ(L, n2, n1, ζ2, ζ1)
+    res1 = OneCenterTwoERζ(:test, L, n2, n1, ζ2, ζ1)
     res2 = OTwoEmL(L, n2, ζ2, n1, ζ1)
     res3 = OTwoEeL(L, n1, ζ1, n2, ζ2)
     res4 = OTwoEhL(L, n2, ζ2, n1, ζ1)
