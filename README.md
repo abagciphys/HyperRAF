@@ -1,4 +1,4 @@
-# HyperRF
+# HyperRAF
 
 [![Build Status](https://github.com/abagciphys/HyperRF.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/abagciphys/HyperRF.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Build Status](https://travis-ci.com/abagciphys/HyperRF.jl.svg?branch=main)](https://travis-ci.com/abagciphys/HyperRF.jl)
