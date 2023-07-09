@@ -33,8 +33,8 @@ function OneCenterTwoERρ(mode::Symbol, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2:
         x1 = (2 * ρ1)
         x2 = (2 * ρ2)
     
-        hyper1 = OTwoERL(L, n1, x1, n2, x2)
-        hyper2 = OTwoERL(L, n2, x2, n1, x1)
+        hyper1 = HyperRL(L, n1, x1, n2, x2)
+        hyper2 = HyperRL(L, n2, x2, n1, x1)
     
         res1 = c2 * hyper1
         res2 = c3 * hyper2

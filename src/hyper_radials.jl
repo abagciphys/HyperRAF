@@ -6,7 +6,7 @@
 ###########################################################################################################
 ###########################################################################################################
 export HyperRadialF, HypREval, OTwoEeL, OTwoEfL, OTwoEgL, OTwoEhL, OTwoElL, OTwoEmL, HyperRLTest, HyperRL0,
-HyperRL1, OTwoERL
+HyperRL1, HyperRL
 ###########################################################################################################
 ######################################## TRANSLATION STRUCTURE ############################################
 struct HyperRadialF
@@ -153,7 +153,7 @@ function HyperRL1(n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res = res1 * (res2 * res3 - res4)
 end
 #################
-function OTwoERL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperRL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     if L == 0
         res = HyperRL0(n1, ζ1, n2, ζ2)
     elseif L == 1

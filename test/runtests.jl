@@ -10,10 +10,10 @@ x1 = ζ1 // (ζ1 + ζ2)
 x2 = ζ2 // (ζ1 + ζ2)
 sprec = 750
 
-lefthyper1 = Float64(NO(HypREval(HyperRadialF(OTwoERL, 1), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
+lefthyper1 = Float64(NO(HypREval(HyperRadialF(HyperRL, 1), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
 righthyper1= Float64(NO(Hypergeometric2F1(RF(1), n1 + n2 + RF(1), n1 + L + RF(2), x1, sprec)))
 
-lefthyper2 = Float64(NO(HypREval(HyperRadialF(OTwoERL, 2), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
+lefthyper2 = Float64(NO(HypREval(HyperRadialF(HyperRL, 2), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
 righthyper2= Float64(NO(Hypergeometric2F1(RF(1), n1 + n2 + RF(1), n2 + L + RF(2), x2, sprec)))
 
 @testset "HyperRF.jl" begin
@@ -33,7 +33,7 @@ righthyper2= Float64(NO(Hypergeometric2F1(RF(1), n1 + n2 + RF(1), n2 + L + RF(2)
     == 2.0790239933881467)
     @test (Float64(NO(HypREval(HyperRadialF(HyperRL1, 1), RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
     == 1.719834620383692)
-    @test (Float64(NO(HypREval(HyperRadialF(OTwoERL, 1), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
+    @test (Float64(NO(HypREval(HyperRadialF(HyperRL, 1), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
     == 1.2925402895942881)
     @test lefthyper1 == righthyper1
 end
