@@ -53,12 +53,23 @@ function OneCenterTwoERζ(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2:
 end
 ###########################################################################################################
 ################################# ONE CENTER TWO ELECTRON INTEGRALS #######################################(43)
-function OneCenterTwoER(L::Int, n1::arb, ρ1::arb, τ1::arb, n2::arb, ρ2::arb, τ2::arb)
-    res1 = SlaterON(n1, n2, ρ1, τ1)
-    res2 = SlaterON(n1, n2, ρ2, τ2)
-    res3 = OneCenterTwoER(:use, L, n1, ρ1, n2, ρ2)
+function SlaterONu(n1::arb, n2::arb, ρ::arb, τ::arb)
+    res1 = ((ρ*(One(τ)+τ))^(n1 + 1//2)) * ((ρ*(One(τ)-τ))^(n2 + 1//2))
+    res2 = Sqrt(Gamma(2*n1 + One(n1)) * Gamma(2*n2 + One(n2)))
+    res1 // res2
+end
 
-    res = res1 * res2 * res3
+function OneCenterTwoER(L::Int, n1::arb, ρ1::arb, τ1::arb, n2::arb, ρ2::arb, τ2::arb)
+    lowl = 0
+    upl = L
+
+    res3 = zeros(RF, upl - lowl + 1)
+
+    res1 = SlaterONu(n1, n2, ρ1, τ1)
+    res2 = SlaterONu(n1, n2, ρ2, τ2)
+    res3 = OneCenterTwoERρ(:use, L, n1, ρ1, n2, ρ2)
+
+    res =  res1 * res2 .* res3
 end
 
 function OneCenterTwoE(

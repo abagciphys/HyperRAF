@@ -155,9 +155,9 @@ end
 #################
 function HyperRL(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     if L == 0
-        res = HyperRL0(n1, ζ1, n2, ζ2)
+        res = HyperRL0(n1, ζ1, n2, ζ2) // (n1 + 0 + 1)
     elseif L == 1
-        res =  HyperRL1(n1, ζ1, n2, ζ2)
+        res =  HyperRL1(n1, ζ1, n2, ζ2) // (n1 + 1 + 1)
     else
         lowl = 0
         upl = L
