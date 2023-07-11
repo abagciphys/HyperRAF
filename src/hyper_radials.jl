@@ -153,7 +153,7 @@ function HyperRL1(n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res = res1 * (res2 * res3 - res4)
 end
 #################
-function HyperRL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperRL(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     if L == 0
         res = HyperRL0(n1, ζ1, n2, ζ2)
     elseif L == 1
@@ -162,10 +162,15 @@ function HyperRL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
         lowl = 0
         upl = L
 
+        hyperrl = zeros(RF, upl - lowl + 1)
         otwoerl = zeros(RF, upl - lowl + 1)
+        #otwoerl is for use in two-electron intgrals(memorizing the coefficients already)
 
-        otwoerl[1] = HyperRL0(n1, ζ1, n2, ζ2)
-        otwoerl[2] = HyperRL1(n1, ζ1, n2, ζ2)
+        hyperrl[1] = HyperRL0(n1, ζ1, n2, ζ2)
+        otwoerl[1] = HyperRL0(n1, ζ1, n2, ζ2) // (n1 + 0 + 1)
+
+        hyperrl[2] = HyperRL1(n1, ζ1, n2, ζ2)
+        otwoerl[2] = HyperRL1(n1, ζ1, n2, ζ2) // (n1 + 1 + 1)
 
         for s in lowl : upl - 2
             s1 = s - lowl + 1
@@ -173,9 +178,16 @@ function HyperRL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
             res2 = ζ2 * (n1 + s + 2)
             res3 = ζ1 * (-n2 + s + 1) - ζ2 * (n1 + s + 2)
 
-            otwoerl[s1 + 2] = res1 * (res2  * otwoerl[s1] + res3 * otwoerl[s1 + 1])
+            hyperrl[s1 + 2] = res1 * (res2  * hyperrl[s1] + res3 * hyperrl[s1 + 1])
+            otwoerl[s1 + 2] = hyperrl[s1 + 2] // (n1 + s + 2 + 1)
         end
-        res = otwoerl[L + 1]
+        if mode == :test
+            res = hyperrl
+        elseif mode == :use
+            res = otwoerl
+        else
+            error("Invalid mode specified. Please use either :test or :use.")
+        end
     end
     return res
 end

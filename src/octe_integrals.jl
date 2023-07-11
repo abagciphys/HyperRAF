@@ -27,19 +27,21 @@ function OneCenterTwoERρ(mode::Symbol, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2:
         res = c1 * (res1 + res2)
     elseif mode == :use
         c1 = Gamma(n1 + n2 + 1) // Power(2 * (ρ1 + ρ2), n1 + n2 + 1)
-        c2 = 1 // (n1 + L + 1)
-        c3 = 1 // (n2 + L + 1)
 
         x1 = (2 * ρ1)
         x2 = (2 * ρ2)
+
+        lowl = 0
+        upl = L
+
+        otwoerl = zeros(RF, upl - lowl + 1)
+        otwoer2 = zeros(RF, upl - lowl + 1)
+
+        otwoerl = HyperRL(:use, L, n1, x1, n2, x2)
+        otwoer2 = HyperRL(:use, L, n2, x2, n1, x1)
     
-        hyper1 = HyperRL(L, n1, x1, n2, x2)
-        hyper2 = HyperRL(L, n2, x2, n1, x1)
-    
-        res1 = c2 * hyper1
-        res2 = c3 * hyper2
-    
-        res = c1 * (res1 + res2)
+        res = c1 .* (otwoerl + otwoer2)
+        return res
     else
         error("Invalid mode specified. Please use either :test or :use.")
     end
@@ -51,10 +53,10 @@ function OneCenterTwoERζ(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2:
 end
 ###########################################################################################################
 ################################# ONE CENTER TWO ELECTRON INTEGRALS #######################################(43)
-function OneCenterTwoER(L::Int, n1::arb, n2::arb, ρ1::arb, τ1::arb, ρ2::arb, τ2::arb)
+function OneCenterTwoER(L::Int, n1::arb, ρ1::arb, τ1::arb, n2::arb, ρ2::arb, τ2::arb)
     res1 = SlaterON(n1, n2, ρ1, τ1)
     res2 = SlaterON(n1, n2, ρ2, τ2)
-    res3 = OneCenterTwoER(L, n1, n2, ρ1, ρ2)
+    res3 = OneCenterTwoER(:use, L, n1, ρ1, n2, ρ2)
 
     res = res1 * res2 * res3
 end
