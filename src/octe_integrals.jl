@@ -97,7 +97,7 @@ function OneCenterTwoE(
     ρ2::arb, τ2::arb)
 
     if Abs(m1) > Abs(l1) || Abs(m1p) > Abs(l1p) || Abs(m2) > Abs(l2) || Abs(m2p) > Abs(l2p)
-        error(InvalidQuantumNumbersError("Invalid quantum numbers! l must be greater than or equal to m."))
+        error(InvalidQuantumNumbersError("Invalid quantum numbers! l must be greater than or equal to |m|."))
         return RF(0)
     else
         lowl = max(abs(l1-l1p), abs(l2-l2p))
