@@ -119,7 +119,7 @@ function OneCenterTwoE(
         end 
     end
     if isnan(NO(onectwoe))
-        return 0
+        return RF(0)
     else
         return onectwoe
     end
