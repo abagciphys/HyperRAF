@@ -184,9 +184,9 @@ function HyperRL(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
             otwoerl[s1 + 2] = hyperrl[s1 + 2] // (n1 + s + 2 + 1)
         end
         if mode == :test
-            return = hyperrl
+            return hyperrl
         elseif mode == :use
-            return = otwoerl
+            return otwoerl
         else
             error("Invalid mode specified. Please use either :test or :use.")
         end
