@@ -37,8 +37,8 @@ function OneCenterTwoERρ(mode::Symbol, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2:
         otwoerl = zeros(RF, upl - lowl + 1)
         otwoer2 = zeros(RF, upl - lowl + 1)
 
-        otwoerl = HyperRL(:use, L, n1, x1, n2, x2)
-        otwoer2 = HyperRL(:use, L, n2, x2, n1, x1)
+        otwoerl = HyperRL(:use, upl, n1, x1, n2, x2)
+        otwoer2 = HyperRL(:use, upl, n2, x2, n1, x1)
     
         res = c1 .* (otwoerl + otwoer2)
         return res
@@ -53,33 +53,50 @@ function OneCenterTwoERζ(mode::Symbol, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2:
 end
 ###########################################################################################################
 ################################# ONE CENTER TWO ELECTRON INTEGRALS #######################################(43)
-function SlaterONu(n1::arb, n2::arb, ρ::arb, τ::arb)
+function Slatern(n1::arb, n2::arb, ρ::arb, τ::arb)
     res1 = ((ρ*(One(τ)+τ))^(n1 + 1//2)) * ((ρ*(One(τ)-τ))^(n2 + 1//2))
     res2 = Sqrt(Gamma(2*n1 + One(n1)) * Gamma(2*n2 + One(n2)))
     res1 // res2
 end
-
-function OneCenterTwoER(L::Int, n1::arb, ρ1::arb, τ1::arb, n2::arb, ρ2::arb, τ2::arb)
+#################
+function OneCenterTwoERTest(L::Int, n1::arb, ρ1::arb, τ1::arb, n2::arb, ρ2::arb, τ2::arb)
     lowl = 0
     upl = L
 
     res3 = zeros(RF, upl - lowl + 1)
 
-    res1 = SlaterONu(n1, n2, ρ1, τ1)
-    res2 = SlaterONu(n1, n2, ρ2, τ2)
-    res3 = OneCenterTwoERρ(:use, L, n1, ρ1, n2, ρ2)
+    res1 = Slatern(n1, n2, ρ1, τ1)
+    res2 = Slatern(n1, n2, ρ2, τ2)
+    res3 = OneCenterTwoERρ(:use, upl, n1, ρ1, n2, ρ2)
 
     res =  res1 * res2 .* res3
 end
 
+function OneCenterTwoER(L::Int, 
+    n1::arb, n1p::arb, ρ1::arb, τ1::arb,
+    n2::arb, n2p::arb, ρ2::arb, τ2::arb
+    )
+
+    lowl = 0
+    upl = L
+
+    res3 = zeros(RF, upl - lowl + 1)
+
+    res1 = Slatern(n1, n1p, 2 * ρ1, τ1)
+    res2 = Slatern(n2, n2p, 2 * ρ2, τ2)
+    res3 = OneCenterTwoERρ(:use, upl, n1 + n1p, ρ1, n2 + n2p, ρ2)
+    res = res1 * res2 .* res3
+end
+
 function OneCenterTwoE(
-    n1::arb, l1::Int, m1::Int, ρ1::arb, τ1::arb, 
-    n1p::arb, l1p::Int, m1p::Int, ρ1p::arb, τ1p::arb, 
-    n2::arb, l2::Int, m2::Int, ρ2::arb, τ2::arb, 
-    n2p::arb, l2p::Int, m2p::Int, ρ2p::arb, τ2p::arb)
+    n1::arb, l1::Int, m1::Int, 
+    n1p::arb, l1p::Int, m1p::Int, 
+    n2::arb, l2::Int, m2::Int, 
+    n2p::arb, l2p::Int, m2p::Int, 
+    ρ1::arb, τ1::arb, ρ2::arb, τ2::arb)
 
     if Abs(m1) > Abs(l1) || Abs(m1p) > Abs(l1p) || Abs(m2) > Abs(l2) || Abs(m2p) > Abs(l2p)
-        res = 0
+        return RF(0)
     else
         lowl = max(abs(l1-l1p), abs(l2-l2p))
         upl = min(l1 + l1p, l2 + l2p)
@@ -87,15 +104,16 @@ function OneCenterTwoE(
         gaunt11p = zeros(RF, upl - lowl + 1)
         gaunt22p = zeros(RF, upl - lowl + 1)
         onectwoer = zeros(CF, upl - lowl + 1)
-        onectwoe = zeros(CF, upl - lowl + 1)
+
+        onectwoer = OneCenterTwoER(upl, n1, n1p, ρ1, τ1, n2, n2p, ρ2, τ2)
+        onectwoe = RF(0)
 
         for s in lowl : upl
             s1 = s + 1
             gaunt11p[s1] = GGauntG(l1, m1, l1p, m1p, s, m1 - m1p)
             gaunt22p[s1] = GGauntG(l2, m2, l2p, m2p, s, m2 - m2p)
-            onectwoer[s1] = OneCenterTwoER(s, n1, n2, ρ1, τ1, ρ2, τ2)
 
-            onectwoe[s1] = gaunt11p[s1] * gaunt22p[s1] * onectwoer[s1]
+            onectwoe += gaunt11p[s1] * gaunt22p[s1] * onectwoer[s1]
         end 
     end
     return onectwoe
