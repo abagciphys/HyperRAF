@@ -22,7 +22,7 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
     for s in 1:L
         time = @elapsed HyperD.HyperD(HyperD.mode, L, n1, ρ1, n2, ρ2)
         total_time += time
-        println(file, "$L\t$time\t$total_time")  # Write time and total_time in two separate columns
+        println(file, "$s\t$time\t$total_time")  # Write time and total_time in two separate columns
     end
 
     close(file)
