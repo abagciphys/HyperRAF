@@ -32,8 +32,9 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
         end
     elseif HyperD.mode == :use
         val = HyperD.HyperD(HyperD.mode, L, n1, ρ1, n2, ρ2)
-        for (index, value) in enumerate(val)
-            println(filev, "$index\t$value")
+        for (index1, value) in enumerate(val)
+            index2 = index1 - 1
+            println(filev, "$index2\t$value")
         end
         for s in 0 : L
             time = @elapsed HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)
