@@ -30,7 +30,7 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
             total_time += time
         end
     elseif HyperD.mode == :use
-        val = Float64(NO(HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)))
+        val = Float64(NO(HyperD.HyperD(HyperD.mode, L, n1, ρ1, n2, ρ2)))
         for (index, value) in enumerate(val)
             println(filev, "$index\t$value")
         end
