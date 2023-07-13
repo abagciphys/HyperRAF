@@ -15,5 +15,6 @@ export sprec, RF, CF
 
 include("hyper_radials.jl")
 include("octe_integrals.jl")
+include("benchmarking.jl")
 
 end
