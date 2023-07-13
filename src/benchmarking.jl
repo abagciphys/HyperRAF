@@ -27,6 +27,7 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
             time = @elapsed HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)
             val = HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)
             println(filet, "$s\t$time\t$total_time")
+            println(filev, "$s\t$val")
             total_time += time
         end
     elseif HyperD.mode == :use
