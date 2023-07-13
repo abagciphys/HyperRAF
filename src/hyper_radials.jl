@@ -5,30 +5,30 @@
 ###########################################################################################################
 ###########################################################################################################
 ###########################################################################################################
-export HyperRadialF, HypREval, OTwoEeL, OTwoEfL, OTwoEgL, OTwoEhL, OTwoElL, OTwoEmL, HyperRLTest, HyperRL0,
-HyperRL1, HyperRL
+export HyperRadialF, HypREval, HyperReL, HyperRfL, HyperRgL, HyperRhL, HyperRlL, HyperRmL, 
+HyperRLTest, HyperRL0, HyperRL1, HyperRL
 ###########################################################################################################
 ######################################## TRANSLATION STRUCTURE ############################################
-struct HyperRadialF
-    HypR::Function
+struct HyperRaF
+    HyperR::Function
     i::Int
 end
 #################
-function HypREval(HypR::HyperRadialF, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
-    if HypR.i == 1
-        return HypR.HypR(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
-    elseif HypR.i == 2
-        return HypR.HypR(L::Int, n2::arb, ζ2::arb, n1::arb, ζ1::arb)
+function HypREval(HyperR::HyperRaF, L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+    if HyperR.i == 1
+        return HyperR.HyperR(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+    elseif HyperR.i == 2
+        return HyperR.HyperR(L::Int, n2::arb, ζ2::arb, n1::arb, ζ1::arb)
     else
         error("Invalid indicator value. Expected 1 or 2.")
     end
 end
 
-function HypREval(HypR::HyperRadialF, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
-    if HypR.i == 1
-        return HypR.HypR(n1::arb, ζ1::arb, n2::arb, ζ2::arb)
-    elseif HypR.i == 2
-        return HypR.HypR(n2::arb, ζ2::arb, n1::arb, ζ1::arb)
+function HypREval(HyperR::HyperRaF, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+    if HyperR.i == 1
+        return HyperR.HyperR(n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+    elseif HyperR.i == 2
+        return HyperR.HyperR(n2::arb, ζ2::arb, n1::arb, ζ1::arb)
     else
         error("Invalid indicator value. Expected 1 or 2.")
     end
@@ -38,7 +38,7 @@ end
 ###########################################################################################################
 ########################################## AUXILIARY FUNCTIONS ############################################
 ################# FOR HYPERGEOMETRIC RADIALS FUNCTIONS
-function OTwoEeL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperReL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res1 = Gamma(n1 + n2 + RF(1))
     res2 = Power(ζ1 + ζ2, n1 + n2 + RF(1))
     res3 = n1 + L + RF(1)
@@ -46,7 +46,7 @@ function OTwoEeL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res = res1 // (res2 * res3)
 end
 #################
-function OTwoEfL(L::Int, n1::arb, n2::arb)
+function HyperRfL(L::Int, n1::arb, n2::arb)
     res1 = RF(pi) * Csc((-n2 + L) * RF(pi))
     res2 = Gamma(-n2 + L + RF(1))
     res3 = (n1 + L + RF(1))
@@ -55,7 +55,7 @@ function OTwoEfL(L::Int, n1::arb, n2::arb)
     res = (res1 // res2) * (res3 // res4)
 end
 #################
-function OTwoEgL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperRgL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res1 = RF(pi) * Csc((-n2 + L) * RF(pi))
     res2 = Gamma(-n2 + L + RF(1))
     res3 = Power(ζ1 // (ζ1 + ζ2), -n1 - L - RF(1))
@@ -66,17 +66,17 @@ function OTwoEgL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res = (res1 // res2) * res3 * res4 * (res5 // res6)
 end
 #################
-function OTwoEhL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperRhL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res1 = (n2 + L + RF(1)) // (n1 + L + RF(1))
     res2 = Pochhammer(n1 - L, 2 * L + RF(1))
     res3 = Pochhammer(-n2 - L - RF(1), 2 * L + RF(1))
     res4 = Power(-(ζ2 // ζ1), 2 * L + RF(1))
-    res5 = OTwoEfL(L, n1, n2)
+    res5 = HyperRfL(L, n1, n2)
 
     res = res1 * (res2 // res3) * res4 * res5 + RF(1)
 end
 #################
-function OTwoElL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+function HyperRlL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res1 = (RF(pi) * Csc((-n2 + L) * RF(pi))) // (Gamma(-n2 + L + RF(1)))
     res2 = (n1 + L + RF(1)) // (Gamma(n2 - L + RF(1)))
     res3 = Power(-(ζ2 // ζ1), 2 * L + RF(1))
@@ -115,10 +115,10 @@ function OTwoElL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     res = res1 * res2 * res3 * res4 * res8 
 end
 #################
-function OTwoEmL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
-    res1 = OTwoEeL(L, n1, ζ1, n2, ζ2)
-    res2 = OTwoEgL(L, n1, ζ1, n2, ζ2)
-    res3 = OTwoElL(L, n1, ζ1, n2, ζ2)
+function HyperRmL(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
+    res1 = HyperReL(L, n1, ζ1, n2, ζ2)
+    res2 = HyperRgL(L, n1, ζ1, n2, ζ2)
+    res3 = HyperRlL(L, n1, ζ1, n2, ζ2)
 
     res = res1 * (res2 + res3)
 end
@@ -128,9 +128,9 @@ end
 function HyperRLTest(L::Int, n1::arb, ζ1::arb, n2::arb, ζ2::arb)
     ### L>1
     res1 = OneCenterTwoERζ(:test, L, n1, ζ1, n2, ζ2)
-    res2 = OTwoEmL(L, n2, ζ2, n1, ζ1)
-    res3 = OTwoEeL(L, n1, ζ1, n2, ζ2)
-    res4 = OTwoEhL(L, n2, ζ2, n1, ζ1)
+    res2 = HyperRmL(L, n2, ζ2, n1, ζ1)
+    res3 = HyperReL(L, n1, ζ1, n2, ζ2)
+    res4 = HyperRhL(L, n2, ζ2, n1, ζ1)
 
     res = (res1 + res2) // (res3 * res4)
 end
