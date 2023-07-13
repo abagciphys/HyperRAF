@@ -2,6 +2,7 @@ module HyperRAF
 
 using Nemo
 using JRAF
+using BenchmarkTools
 
 sprec = 750;
 ARBF = ArbField(sprec);

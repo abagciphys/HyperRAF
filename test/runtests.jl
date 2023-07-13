@@ -36,4 +36,5 @@ righthyper2= Float64(NO(Hypergeometric2F1(RF(1), n1 + n2 + RF(1), n2 + L + RF(2)
     @test (Float64(NO(HypREval(HyperRadialF(HyperRL, 1), 5, RF(15//10),RF(5//10),RF(16//10),RF(6//10))))
     == 1.2925402895942881)
     @test lefthyper1 == righthyper1
+    @test lefthyper2 == righthyper2
 end
