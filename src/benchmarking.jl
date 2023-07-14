@@ -23,10 +23,11 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
 
     total_timet1 = 0.0
     total_timet2 = 0.0
+    total_timeu = 0.0
     if HyperD.mode == :test
         for s in 0 : L
             for s1 in 0 : s
-                time = @elapsed HyperD.HyperD(HyperD.mode, s1, n1, ρ1, n2, ρ2)
+                time = Float32(@elapsed HyperD.HyperD(HyperD.mode, s1, n1, ρ1, n2, ρ2))
                 total_timet1 += time
             end
             total_timet2 += total_timet1
@@ -41,9 +42,9 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
             println(filev, "$index2\t$value")
         end
         for s in 0 : L
-            time = @elapsed HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)
-            println(filet, "$s\t$time\t$total_time")
-            total_time += time
+            time = Float32(@elapsed HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2))
+            println(filet, "$s\t$time\t$total_timeu")
+            total_timeu += time
         end 
     end
     close(filet)
