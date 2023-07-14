@@ -21,16 +21,16 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
     filet = open(file_tpath, "w")
     filev = open(file_vpath, "w")
 
-    total_time = 0.0
-    timet = 0.0
+    total_timet1 = 0.0
+    total_timet2 = 0.0
     if HyperD.mode == :test
         for s in 0 : L
             for s1 in 0 : s
                 time = @elapsed HyperD.HyperD(HyperD.mode, s1, n1, ρ1, n2, ρ2)
-                total_time += time
-                timet = time
+                total_timet1 += time
             end
-            println(filet, "$s\t$timet\t$total_time")
+            total_timet2 += total_timet1
+            println(filet, "$s\t$total_timet1\t$total_timet2")
             val = HyperD.HyperD(HyperD.mode, s, n1, ρ1, n2, ρ2)
             println(filev, "$s\t$val")
         end
