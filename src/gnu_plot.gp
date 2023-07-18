@@ -1,4 +1,4 @@
-print "Enter the max value"
+print "Enter the max value of L"
 
 max_value = int(system("read max_value_input && echo $max_value_input"))
 
@@ -18,7 +18,7 @@ set style line 2 lt 2 lw 1.5 lc  rgb "black"
 xtics_values = substr(xtics_values, 1, strlen(xtics_values) - 2)
 
 #set yrange[0:1]
-set ylabel 'CPU Time (secs)'
+set ylabel 'CPU Time (sec)'
 set ytics nomirror
 set xlabel "{/:Bold L}" font ",11" offset 0,0.5,0
 set xtics nomirror
