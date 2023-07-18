@@ -14,8 +14,8 @@ end
 
 function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::arb)
     user_home_dir = homedir()
-    file_time = "cpu_$(HyperD.mode)_time.dat"
-    file_val = "cpu_$(HyperD.mode)_val.dat"
+    file_time = "cpu_$(HyperD.mode)_jtime.dat"
+    file_val = "cpu_$(HyperD.mode)_jval.dat"
     file_tpath = joinpath(user_home_dir, file_time)
     file_vpath = joinpath(user_home_dir, file_val)
     filet = open(file_tpath, "w")
@@ -50,3 +50,5 @@ function HyperRaFT(HyperD::HyperRaFD, L::Int, n1::arb, ρ1::arb, n2::arb, ρ2::a
     close(filet)
     close(filev)
 end
+############## Example of using
+#HyperRaFT(HyperRaFD(OneCenterTwoERρ, :test), 50, RF(15//10),RF(5//10),RF(16//10),RF(6//10))
