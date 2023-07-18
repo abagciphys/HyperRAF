@@ -18,9 +18,9 @@ set style line 2 lt 2 lw 1.5 lc  rgb "black"
 xtics_values = substr(xtics_values, 1, strlen(xtics_values) - 2)
 
 #set yrange[0:1]
-set ylabel 'CPU Time'
+set ylabel 'CPU Time (secs)'
 set ytics nomirror
-set xlabel "{/:Bold L}" font ",11" offset 0,1.5,0
+set xlabel "{/:Bold L}" font ",11" offset 0,0.5,0
 set xtics nomirror
 set xtics scale 0.0
 
