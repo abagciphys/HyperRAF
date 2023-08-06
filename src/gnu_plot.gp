@@ -8,12 +8,13 @@ do for [i=0:10] {
     xtics_values = xtics_values.sprintf("\"%d\" %d, ", xtic_value, xtic_value)
 }
 xtics_values = substr(xtics_values, 1, strlen(xtics_values) - 2)
-
+#set terminal eps
+#set output "hyperraf.eps"
 #set key below width -2 vertical maxrows 1
 set multiplot layout 1,2 #title "RDF"
 
 set style line 1 lt 1 lw 1.5 lc rgb "black" dashtype 2
-set style line 2 lt 2 lw 1.5 lc  rgb "black"
+set style line 2 lt 3 lw 3.5 lc  rgb "black"
 
 xtics_values = substr(xtics_values, 1, strlen(xtics_values) - 2)
 
